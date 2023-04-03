@@ -1,0 +1,88 @@
+<style>
+    body {
+        background-color: slategray;
+        color: white;
+    }
+
+    input[type="text"] {
+        background-color: white;
+        color: black;
+        border: 2px solid darkgray;
+        border-radius: 5px;
+        padding: 5px;
+    }
+
+    ul {
+        list-style: none;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        grid-gap: 50px;
+        padding: 0 30px;
+        overflow: auto;
+        font-size: 20px;
+    }
+
+    li {
+        background-color: slategray;
+        color: white;
+        padding: 0;
+        text-align: center;
+    }
+
+    .modifiers {
+        font-size: inherit;
+        margin-left: 20px;
+        display: inline-block;
+        vertical-align: top;
+        float: right;
+    }
+
+    .modifier {
+        display: flex;
+        align-items: center;
+    }
+
+    h2,
+    h3,
+    h4 {
+        margin: 0;
+        padding: 0 5px;
+    }
+</style>
+
+<h1>Search to find matching words. Use the modifiers on the right to narrow down your search.</h1>
+
+<form action="/search" method="get">
+  <label for="query">Search:</label>
+  <input type="text" id="query" name="query" value="<%= params[:query] %>">
+  <div class="modifiers">
+    <h3>Possible modifiers:</h3>
+    <div class="modifier">
+      <label for="min_word_length">minimum letters (num):</label>
+      <input type="text" name="min_word_length" id="min_word_length" value="<%= params[:min_word_length] %>">
+    </div>
+    <div class="modifier">
+      <label for="max_word_length">maximum letters (num):</label>
+      <input type="text" name="max_word_length" id="max_word_length" value="<%= params[:max_word_length] %>">
+    </div>
+    <div class="modifier">
+      <label for="starts_with">starts_with (letters):</label>
+      <input type="text" name="starts_with" id="starts_with" value="<%= params[:starts_with] %>">
+    </div>
+    <div class="modifier">
+      <label for="ends_with">ends_with (letters):</label>
+      <input type="text" name="ends_with" id="ends_with" value="<%= params[:ends_with] %>">
+    </div>
+    <div class="modifier">
+      <label for="dont_include">dont_include (letters),(letters):</label>
+      <input type="text" name="dont_include" id="dont_include" value="<%= params[:dont_include] %>">
+    </div>
+  </div>
+  <input type="submit" value="Search">
+</form>
+
+<ul>
+  <% @results.each do |result| %>
+    <li><%= result %></li>
+  <% end %>
+</ul>
