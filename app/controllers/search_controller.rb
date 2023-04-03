@@ -34,10 +34,10 @@ class SearchController < ApplicationController
           if ends_with == ""
             ends_with = nil
           end
-          if dont_include == ""
+          if dont_include.blank?
             dont_include = nil
           else
-            dont_include = [dont_include]
+            dont_include = dont_include.split(',')
           end
           min_word_length = min_word_length.to_i if min_word_length
           max_word_length = max_word_length.to_i if max_word_length

@@ -60,13 +60,13 @@
     }
 </style>
 
-<h1>Search results for "<%= @query %>"</h1>
+<h1><p><%= @results.length %> results found for "<%= @query %>"</p></h1>
 
 <form action="/search" method="get">
   <label for="query">Search:</label>
   <input type="text" id="query" name="query" value="<%= params[:query] %>">
   <div class="modifiers">
-    <h3>Possible modifiers:</h3>
+    <h3>Parameters:</h3>
     <div class="modifier">
       <label for="min_word_length">minimum letters (num):</label>
       <input type="text" name="min_word_length" id="min_word_length" value="<%= params[:min_word_length] %>">

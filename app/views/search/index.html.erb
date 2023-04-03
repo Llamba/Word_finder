@@ -1,13 +1,23 @@
 <style>
+    :root {
+        --bg-color: slategray;
+        --text-color: white;
+        --input-bg-color: white;
+        --input-text-color: black;
+        --input-border-color: darkgray;
+        --li-bg-color: slategray;
+        --li-text-color: white;
+    }
+
     body {
-        background-color: slategray;
-        color: white;
+        background-color: var(--bg-color);
+        color: var(--text-color);
     }
 
     input[type="text"] {
-        background-color: white;
-        color: black;
-        border: 2px solid darkgray;
+        background-color: var(--input-bg-color);
+        color: var(--input-text-color);
+        border: 2px solid var(--input-border-color);
         border-radius: 5px;
         padding: 5px;
     }
@@ -23,8 +33,8 @@
     }
 
     li {
-        background-color: slategray;
-        color: white;
+        background-color: var(--li-bg-color);
+        color: var(--li-text-color);
         padding: 0;
         text-align: center;
     }
@@ -50,13 +60,13 @@
     }
 </style>
 
-<h1>Search to find matching words. Use the modifiers on the right to narrow down your search.</h1>
+<h1>Start search to get results. Use right side to define parameters.</h1>
 
 <form action="/search" method="get">
   <label for="query">Search:</label>
   <input type="text" id="query" name="query" value="<%= params[:query] %>">
   <div class="modifiers">
-    <h3>Possible modifiers:</h3>
+    <h3>Parameters:</h3>
     <div class="modifier">
       <label for="min_word_length">minimum letters (num):</label>
       <input type="text" name="min_word_length" id="min_word_length" value="<%= params[:min_word_length] %>">
