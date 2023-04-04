@@ -1,130 +1,109 @@
 <style>
-    :root {
-        --bg-color: slategray;
-        --text-color: white;
-        --input-bg-color: white;
-        --input-text-color: black;
-        --input-border-color: darkgray;
-        --li-bg-color: slategray;
-        --li-text-color: white;
-    }
+* {
+  font-family: sans-serif;
+  color: #dddddd;
+}
 
-    body {
-        background-color: var(--bg-color);
-        color: var(--text-color);
-    }
+body {
+  padding: 1rem;
+  background-color: #111827;
+}
 
-    input[type="text"] {
-        background-color: var(--input-bg-color);
-        color: var(--input-text-color);
-        border: 2px solid var(--input-border-color);
-        border-radius: 5px;
-        padding: 5px;
-    }
+button {
+  background-color: transparent;
+  border: solid #94a3b8 1px;
+  border-radius: 3px;
+  padding: 12.5px 15px;
+  outline: none;
+}
 
-    ul {
-        list-style: none;
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-        grid-gap: 50px;
-        padding: 0 30px;
-        overflow: auto;
-        font-size: 20px;
-    }
+button:hover {
+  cursor: pointer;
+  background-color: #ffffff22;
+}
 
-    li {
-        background-color: var(--li-bg-color);
-        color: var(--li-text-color);
-        padding: 0;
-        text-align: center;
-    }
+input {
+  background-color: transparent;
+  border: solid #94a3b8 1px;
+  border-radius: 3px;
+  padding: 12.5px 15px;
+  outline: none;
+}
 
-    .modifiers {
-        font-size: inherit;
-        margin-left: 20px;
-        display: inline-block;
-        vertical-align: top;
-        float: right;
-    }
+input:focus {
+  border: solid #9ca3af 1px;
+}
 
-    .modifier {
-        display: flex;
-        align-items: center;
-    }
+input::placeholder {
+  color: #64748b;
+}
 
-    h2,
-    h3,
-    h4 {
-        margin: 0;
-        padding: 0 5px;
-    }
+form {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
 
-    a {
-        color: lightblue;
-    }
+#query {
+  width: 100%;
+}
 
-    a:hover {
-        color: blue;
-    }
+.modifier {
+  width: 100px;
+}
 
-    a:active {
-        color: purple;
-    }
+.only-show-word-typed {
+  width: 500px;
+  text-align: center;
+
+  border: solid #94a3b8 1px;
+  border-radius: 3px;
+  padding: 10px 15px;
+}
+
+.words > div {
+  font-size: 2rem;
+}
+
+.words {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+}
 </style>
+
+
+<form action="/search" method="get">
+  <input type="text" id="query" name="query" value="<%= params[:query] %>">
+
+  <input class="modifier" type="text" name="min_word_length" id="min_word_length" value="<%= params[:min_word_length] %>" placeholder="min word length">
+  <input class="modifier" type="text" name="max_word_length" id="max_word_length" value="<%= params[:max_word_length] %>" placeholder="max word length">
+  <input class="modifier" type="text" name="starts_with" id="starts_with" value="<%= params[:starts_with] %>" placeholder="starts with">
+  <input class="modifier" type="text" name="ends_with" id="ends_with" value="<%= params[:ends_with] %>" placeholder="ends with">
+  <input class="modifier" type="text" name="dont_include" id="dont_include" value="<%= params[:dont_include] %>" placeholder="dont include">
+  <div class="only-show-word-typed">
+    <label>Only show word typed:</label>
+    <% if params[:word_typed_only] %>
+      <input type="checkbox" name="word_typed_only" id="word_typed_only" value=true checked>
+    <% else %>
+      <input type="checkbox" name="word_typed_only" id="word_typed_only" value=true>
+    <% end %>
+  </div>
+
+  <button type="submit">
+    Search
+  </button>
+</form>
 
 <h1><p><%= @results.length %> results found for "<%= @query %>"</p></h1>
 
-<form action="/search" method="get">
-  <label for="query">Search:</label>
-  <input type="text" id="query" name="query" value="<%= params[:query] %>">
-  <div class="modifiers">
-
-    <h3>Parameters:</h3>
-    <div class="modifier">
-      <label for="min_word_length">minimum letters (num):</label>
-      <input type="text" name="min_word_length" id="min_word_length" value="<%= params[:min_word_length] %>">
-    </div>
-
-    <div class="modifier">
-      <label for="max_word_length">maximum letters (num):</label>
-      <input type="text" name="max_word_length" id="max_word_length" value="<%= params[:max_word_length] %>">
-    </div>
-
-    <div class="modifier">
-      <label for="starts_with">starts_with (letters):</label>
-      <input type="text" name="starts_with" id="starts_with" value="<%= params[:starts_with] %>">
-    </div>
-
-    <div class="modifier">
-      <label for="ends_with">ends_with (letters):</label>
-      <input type="text" name="ends_with" id="ends_with" value="<%= params[:ends_with] %>">
-    </div>
-
-    <div class="modifier">
-      <label for="dont_include">dont_include (letters),(letters):</label>
-      <input type="text" name="dont_include" id="dont_include" value="<%= params[:dont_include] %>">
-    </div>
-
-    <div class="modifier">
-      <label for="word_typed_only">Only show word typed:</label>
-      <% if params[:word_typed_only] %>
-        <input type="checkbox" name="word_typed_only" id="word_typed_only" value=true checked>
-      <% else %>
-        <input type="checkbox" name="word_typed_only" id="word_typed_only" value=true>
-      <% end %>
-    </div>
-
-  </div>
-  <input type="submit" value="Search">
-</form>
-
-<ul>
+<div class="words">
   <% @results.each do |result| %>
-    <li>
+    <div>
       <% result.split.each do |word| %>
         <% link = "https://www.dictionary.com/browse/#{word}" %>
         <a href="<%= link %>" target="_blank"><%= word %></a>
       <% end %>
-    </li>
+    </div>
   <% end %>
-</ul>
+</div>
