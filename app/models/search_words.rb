@@ -57,6 +57,6 @@ class SearchWords
       results = [query]
     end
     results
-
   end
+
 end

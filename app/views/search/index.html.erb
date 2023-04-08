@@ -61,6 +61,19 @@
         padding: 10px 15px;
     }
 
+    .sort select {
+        padding: 5px 10px;
+        border: 1px solid #94a3b8;
+        border-radius: 2px;
+        background-color: #111827;
+        width: 250px;
+        height: 42px;;
+    }
+
+    .sort select:focus {
+        border-color: #66afe9;
+    }
+
     .words > div {
         font-size: 2rem;
     }
@@ -74,20 +87,29 @@
 
 
 <form action="/search" method="get">
-  <input type="text" id="query" name="query" value="<%= params[:query] %>">
+  <input type="text" id="query" name="query" value="<%= params[:query] %>" placeholder="word includes:">
 
-  <input class="modifier" type="text" name="min_word_length" id="min_word_length" value="<%= params[:min_word_length] %>" placeholder="min word length">
-  <input class="modifier" type="text" name="max_word_length" id="max_word_length" value="<%= params[:max_word_length] %>" placeholder="max word length">
-  <input class="modifier" type="text" name="starts_with" id="starts_with" value="<%= params[:starts_with] %>" placeholder="starts with">
-  <input class="modifier" type="text" name="ends_with" id="ends_with" value="<%= params[:ends_with] %>" placeholder="ends with">
-  <input class="modifier" type="text" name="dont_include" id="dont_include" value="<%= params[:dont_include] %>" placeholder="dont include">
+  <input class="modifier" type="text" name="min_word_length" id="min_word_length" value="<%= params[:min_word_length] %>" placeholder="min word length:">
+  <input class="modifier" type="text" name="max_word_length" id="max_word_length" value="<%= params[:max_word_length] %>" placeholder="max word length:">
+  <input class="modifier" type="text" name="starts_with" id="starts_with" value="<%= params[:starts_with] %>" placeholder="starts with:">
+  <input class="modifier" type="text" name="ends_with" id="ends_with" value="<%= params[:ends_with] %>" placeholder="ends with:">
+  <input class="modifier" type="text" name="dont_include" id="dont_include" value="<%= params[:dont_include] %>" placeholder="dont include:">
   <div class="only-show-word-typed">
     <label>Only show word typed:</label>
     <% if params[:word_typed_only] %>
       <input type="checkbox" name="word_typed_only" id="word_typed_only" value=true checked>
     <% else %>
-      <input type="checkbox" name="word_typed_only" id="word_typed_only" value=false>
+      <input type="checkbox" name="word_typed_only" id="word_typed_only" value=true>
     <% end %>
+  </div>
+
+  <div class="sort">
+    <label for="sort"></label>
+    <select id="sort" name="sort">
+      <option value="" <%= 'selected' if params[:sort].blank? %>>Default sorting (Alphabetical)</option>
+      <option value="length_asc" <%= 'selected' if params[:sort] == 'length_asc' %>>Length (Ascending)</option>
+      <option value="length_desc" <%= 'selected' if params[:sort] == 'length_desc' %>>Length (Descending)</option>
+    </select>
   </div>
 
   <button type="submit">
@@ -95,7 +117,7 @@
   </button>
 </form>
 
-<h1>Input a word to view results</h1>
+<h1>Type a word and change parameters to modify search</h1>
 
 <div class="words">
   <% @results.each do |result| %>
