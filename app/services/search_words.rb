@@ -1,9 +1,7 @@
 class SearchWords
-  def self.search(query, min_word_length, max_word_length, starts_with, ends_with, dont_include, word_typed_only)
+  def self.search(query: nil, min_word_length: nil, max_word_length: nil, starts_with: nil, ends_with: nil, dont_include: nil, word_typed_only: nil, sortby: "alphabetical")
     results = []
-    dont_include = dont_include.split(',') if dont_include
-    min_word_length = min_word_length.to_i if min_word_length
-    max_word_length = max_word_length.to_i if max_word_length
+
     parsed = query.split if query
     File.foreach("movies.txt") do |line|
       section = line.downcase.chomp.split(/\s+/)
@@ -53,9 +51,10 @@ class SearchWords
       end
     end
 
-    if query && query.split.all? { |term| results.include?(term) } && word_typed_only == "true"
+    if query && query.split.all? { |term| results.include?(term) } && word_typed_only
       results = [query]
     end
+    results = SortWords.sort_words(results, sortby)
     results
   end
 
